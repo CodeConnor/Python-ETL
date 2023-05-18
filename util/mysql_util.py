@@ -1,8 +1,10 @@
+# 封装mysql中连接数据库、执行SQL语句等常用方法
+
 import pymysql
 from config import project_config as conf
 
 
-# 创建pymysql工具类，保存mysql中常用操作的方法
+# 创建pymysql工具类
 class MySQLUtil(object):
     # 初始化MySQL配置信息为属性
     def __init__(self,
