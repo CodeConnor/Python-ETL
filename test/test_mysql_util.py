@@ -4,6 +4,7 @@ from util.mysql_util import MySQLUtil
 # 导入TestCase包
 from unittest import TestCase
 
+
 class TestMySQLUtil(TestCase):  # 继承至TestCase
     # 初始化测试类
     def setUp(self) -> None:
