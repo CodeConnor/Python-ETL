@@ -4,6 +4,7 @@
 封装文件处理的相关方法，实现文件处理在其他代码中的复用
 '''
 import os
+from config import project_config as conf
 
 
 def get_dir_files_list(path='./', recursion=False):
@@ -13,4 +14,4 @@ def get_dir_files_list(path='./', recursion=False):
     :param recursion: 是否递归读取，默认不递归
     :return: list对象，其中储存文件路径
     '''
-    pass
+    file_list = []
