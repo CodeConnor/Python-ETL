@@ -4,8 +4,8 @@ import logging
 from config import project_config as conf
 
 
-class LoggingUitl:
-    # 初始化日志登记
+class Logging:
+    # 初始化日志等级、logger对象
     def __init__(self, level=20):
         self.logger = logging.getLogger()
         self.logger.setLevel(level)
@@ -13,7 +13,7 @@ class LoggingUitl:
     # 获取日志对象
     def init_logger(self):
         # 实例化得到logger对象
-        logger = self.logger
+        logger = Logging().logger
 
         # 获取Handle,并设置属性
         file_handle = logging.FileHandler(
@@ -33,5 +33,4 @@ class LoggingUitl:
 
         return logger
 
-l1 = LoggingUitl()
-print(l1.init_logger())
+
