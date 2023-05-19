@@ -6,7 +6,7 @@ from config import project_config as conf
 
 class Logging:
     # 初始化日志等级、logger对象
-    def __init__(self, level=20):
+    def __init__(self, level=20):  # 默认日志等级为INFO
         self.logger = logging.getLogger()
         self.logger.setLevel(level)
 
