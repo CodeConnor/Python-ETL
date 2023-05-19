@@ -15,6 +15,9 @@ class Logging:
         # 实例化得到logger对象
         logger = Logging().logger
 
+        if logger.handlers:
+            return logger
+
         # 获取Handle,并设置属性
         file_handle = logging.FileHandler(
             filename=conf.file_path + conf.file_name,
@@ -33,4 +36,7 @@ class Logging:
 
         return logger
 
+# l1 = Logging()
+# l1.init_logger().info('test info')
+# l1.init_logger().warning('test warning')
 
