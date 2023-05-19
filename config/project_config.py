@@ -16,5 +16,5 @@ metadata_password = '123456'
 file_path = 'D:\Python\PycharmProjects\Python-ETL\log'
 # 日志输出文件名(每小时生成1个log)
 log_time = time.strftime("%Y%m%d-%H", time.localtime(time.time()))
-file_name = f'pyetl-{log_time}.log'
+file_name = f'\pyetl-{log_time}.log'
 # ============================================================================
