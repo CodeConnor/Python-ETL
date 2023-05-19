@@ -15,6 +15,7 @@ class Logging:
         # 实例化得到logger对象
         logger = Logging().logger
 
+        # 去除重复日志：若logger中存在handle的缓存则直接返回logger
         if logger.handlers:
             return logger
 
@@ -39,4 +40,5 @@ class Logging:
 # l1 = Logging()
 # l1.init_logger().info('test info')
 # l1.init_logger().warning('test warning')
+# print(type(l1.init_logger()))
 
