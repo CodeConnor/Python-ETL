@@ -5,6 +5,7 @@
 '''
 from unittest import TestCase
 from util.file_util import get_dir_files_list
+import os
 
 
 class TestFileUtil(TestCase):
