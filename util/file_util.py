@@ -4,7 +4,6 @@
 封装文件处理的相关方法，实现文件处理在其他代码中的复用
 '''
 import os
-from config import project_config as conf
 
 
 def get_dir_files_list(path, recursion=False):
