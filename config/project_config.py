@@ -6,9 +6,9 @@ import time
 
 # =========================== 程序运行日志配置项 start ====================================
 # 日志输出根目录
-file_path = 'D:/Python/PycharmProjects/Python-ETL/log/'
+log_root_path = 'D:/Python/PycharmProjects/Python-ETL/log/'
 # 日志输出文件名(每小时生成1个log)
-file_name = f'pyetl-{time.strftime("%Y%m%d-%H", time.localtime(time.time()))}.log'
+log_name = f'pyetl-{time.strftime("%Y%m%d-%H", time.localtime(time.time()))}.log'
 # =========================== 程序运行日志配置项 end ======================================
 
 
