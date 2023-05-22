@@ -21,7 +21,7 @@ class Logging:
 
         # 获取Handle,并设置属性
         file_handle = logging.FileHandler(
-            filename=conf.file_path + conf.file_name,
+            filename=conf.log_root_path + conf.log_name,
             mode='a',
             encoding='UTF-8'
         )

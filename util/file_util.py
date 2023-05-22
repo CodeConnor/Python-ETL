@@ -28,6 +28,3 @@ def get_dir_files_list(path, recursion=False):
                 files += recursion_files  # 添加递归获取到的文件列表到大列表中
 
     return files
-
-if __name__ == '__main__':
-    print(get_dir_files_list(path='.', recursion=True))
