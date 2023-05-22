@@ -19,10 +19,16 @@ json_root_path = 'D:/Python/pyetl-data/json'
 
 
 # ============================= mysql 配置 start =======================================
+# 元数据管理库配置
 metadata_host = 'localhost'
 metadata_port = 3306
 metadata_user = 'root'
 metadata_password = '123456'
 mysql_charset = 'utf8'
+
+# 业务数据源数据库配置
+
+# 目标数据库配置
+
 # ============================= mysql 配置 end =========================================
 
