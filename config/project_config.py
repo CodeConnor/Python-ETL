@@ -14,8 +14,7 @@ log_name = f'pyetl-{time.strftime("%Y%m%d-%H", time.localtime(time.time()))}.log
 
 # =========================== JSON订单数据采集配置项 start ================================
 # JSON数据所在路径
-
-#
+json_root_path = 'D:/Python/pyetl-data/json'
 # =========================== JSON订单数据采集配置项 end ==================================
 
 
