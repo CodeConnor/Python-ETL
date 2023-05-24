@@ -1,3 +1,7 @@
+# coding:utf8
+'''
+测试MySQL工具类的一系列功能
+'''
 # 创建测试文件测试util中的工具类
 # 导入需要测试的util工具类
 from util.mysql_util import MySQLUtil
