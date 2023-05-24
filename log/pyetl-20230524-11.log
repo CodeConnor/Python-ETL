@@ -59,3 +59,6 @@
 2023-05-24 11:17:51,212 - [INFO] - mysql_util.py[46]: SELECT * FROM tb_test ORDER BY id被执行，返回1条数据
 2023-05-24 11:17:51,214 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
 2023-05-24 11:17:51,214 - [INFO] - mysql_util.py[46]: SELECT * FROM tb_test ORDER BY id被执行，返回1条数据
+2023-05-24 11:23:02,059 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-24 11:23:02,074 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-24 11:23:02,092 - [INFO] - mysql_util.py[46]: SELECT * FROM tb_test ORDER BY id被执行，返回2条数据

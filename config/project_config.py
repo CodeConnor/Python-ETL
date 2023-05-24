@@ -26,6 +26,16 @@ metadata_user = 'root'
 metadata_password = '123456'
 mysql_charset = 'utf8'
 
+metadata_db_name = 'metadata'  # 元数据库名称
+metadata_file_monitor_table_name = 'file_monitor'  # 元数据表名称
+# 元数据表建表语句
+metadata_file_monitor_table_create_cols = '''
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    file_name VARCHAR(50) UNIQUE NOT NULL COMMENT '被处理文件文件名',
+    process_lines INT COMMENT '被处理文件数据条数',
+    process_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '文件处理时间'
+'''
+
 # 业务数据源数据库配置
 
 # 目标数据库配置

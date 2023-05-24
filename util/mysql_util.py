@@ -86,7 +86,7 @@ class MySQLUtil(object):
         self.select_db(db_name)  # 切换数据库
         result = self.query('SHOW TABLES')  # 执行查询语句
         # 因为数据库返回的结果为嵌套的元组：((table1, ), (teble2, ))，所以需要用元组来检查结果
-        return (table_name, ) in result
+        return (table_name,) in result
 
     def check_table_exists_and_create(self, db_name, table_name, create_cols):
         '''
@@ -100,3 +100,10 @@ class MySQLUtil(object):
         if not self.check_table_exists(db_name, table_name):  # 进入if说明不存在该表
             create_sql = f'CREATE TABLE {table_name}({create_cols})'
             self.execute(create_sql)
+
+
+def get_processed_files():
+    '''
+    该方法用于将已被处理的JSON文件的元数据存入元数据库中，创建并获取元数据表信息
+    :return:
+    '''

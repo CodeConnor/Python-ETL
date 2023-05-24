@@ -3,8 +3,9 @@
 测试MySQL工具类的一系列功能
 '''
 # 创建测试文件测试util中的工具类
-# 导入需要测试的util工具类
+# 导入需要测试的util工具类与方法
 from util.mysql_util import MySQLUtil
+from util.mysql_util import get_processed_files
 # 导入TestCase包
 from unittest import TestCase
 
@@ -89,3 +90,12 @@ class TestMySQLUtil(TestCase):  # 继承至TestCase
         # 清理单元测试残留
         db_util2.execute('DROP DATABASE db_for_unittest')
         db_util2.close_conn()
+
+
+    def test_get_processed_files(self):
+        '''
+        测试该独立方法
+        :return:
+        '''
+
+
