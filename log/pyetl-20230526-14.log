@@ -50,3 +50,43 @@
 2023-05-26 14:18:39,053 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
 2023-05-26 14:18:39,071 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
 2023-05-26 14:18:39,071 - [INFO] - mysql_util.py[46]: SELECT * FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:33:16,602 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:33:16,611 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:33:16,630 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:33:16,630 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:33:45,575 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:33:45,581 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:33:45,595 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:33:45,595 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:36:03,306 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:36:03,309 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:36:03,322 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:36:03,322 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:36:06,475 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:36:06,483 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:36:06,497 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:36:06,503 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:36:08,789 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:36:08,804 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:36:08,824 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:36:08,824 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:37:10,261 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:37:10,261 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:37:10,283 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:37:10,283 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:37:30,456 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:37:30,459 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:37:30,476 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:37:30,476 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:38:25,187 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:38:25,187 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:38:25,199 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:38:25,199 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:38:27,884 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:38:27,891 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:38:27,908 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:38:27,908 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据
+2023-05-26 14:38:30,113 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
+2023-05-26 14:38:30,119 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回0条数据
+2023-05-26 14:38:30,142 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
+2023-05-26 14:38:30,142 - [INFO] - mysql_util.py[46]: SELECT file_name FROM table_for_unittest ORDER BY id被执行，返回2条数据

@@ -108,16 +108,14 @@ class TestMySQLUtil(TestCase):  # 继承至TestCase
         )
         self.db_util.execute(f'TRUNCATE {self.tb_test}')  # 排除未通过测试时，表格有缓存导致插入重复数据的情况
         self.db_util.execute(
-            f'INSERT INTO {self.tb_test} VALUES(1, "test_file1", 1000, "2000-01-01 00:00:01"),(2, "test_file2", 1200, "2000-01-01 00:59:01")')
+            f'INSERT INTO {self.tb_test} VALUES(NULL, "D:/test_file1", 1000, "2000-01-01 00:00:01"),(NULL, "D:/test_file2", 1200, "2000-01-01 00:59:01")')
         result = get_processed_files(
             self.db_util,
             self.db_test,
             self.tb_test,
         )
         # 将字符串类型的时间转换为datetime类型
-        expected = [(1, "test_file1", 1000, datetime.datetime.strptime("2000-01-01 00:00:01", "%Y-%m-%d %H:%M:%S")),
-                    (2, "test_file2", 1200, datetime.datetime.strptime("2000-01-01 00:59:01", "%Y-%m-%d %H:%M:%S"))]
-
+        expected = ["D:/test_file1", "D:/test_file2"]
         self.assertEqual(expected, result)
         # 移除测试数据库
         self.db_util.execute(f'DROP DATABASE {self.db_test}')
