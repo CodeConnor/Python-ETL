@@ -3,13 +3,11 @@
 测试MySQL工具类的一系列功能
 '''
 # 创建测试文件测试util中的工具类
-# 导入需要测试的util工具类与方法
-from util.mysql_util import MySQLUtil
-from util.mysql_util import get_processed_files
+# 一起导入需要测试的util工具类与方法
+from util.mysql_util import MySQLUtil, get_processed_files
 # 导入TestCase包
 from unittest import TestCase
 from config import project_config as conf
-import datetime
 
 
 class TestMySQLUtil(TestCase):  # 继承至TestCase
