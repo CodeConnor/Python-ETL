@@ -52,3 +52,10 @@ class TestFileUtil(TestCase):
         result2 = [os.path.basename(i) for i in fu.get_dir_files_list(test_dir_path, recursion=True)]
         self.assertEqual(['1', '2', '3', '4', '5'], result2)
         '''
+
+    def test_get_new_files_by_comparing_lists(self):
+        '''建立两个列表进行独立测试'''
+        big_list = ['D:/a.json', 'D:/b.json', 'D:/c.json', 'D:/d.json']
+        small_list = ['D:/a.json', 'D:/b.json']
+        result = fu.get_new_files_by_comparing_lists(big_list, small_list)
+        self.assertEqual(['D:/c.json', 'D:/d.json'], result)
