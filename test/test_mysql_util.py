@@ -9,6 +9,7 @@ from util.mysql_util import get_processed_files
 # 导入TestCase包
 from unittest import TestCase
 from config import project_config as conf
+import datetime
 
 
 class TestMySQLUtil(TestCase):  # 继承至TestCase
@@ -105,6 +106,7 @@ class TestMySQLUtil(TestCase):  # 继承至TestCase
             self.tb_test,
             conf.metadata_file_monitor_table_create_cols
         )
+        self.db_util.execute(f'TRUNCATE {self.tb_test}')  # 排除未通过测试时，表格有缓存导致插入重复数据的情况
         self.db_util.execute(
             f'INSERT INTO {self.tb_test} VALUES(1, "test_file1", 1000, "2000-01-01 00:00:01"),(2, "test_file2", 1200, "2000-01-01 00:59:01")')
         result = get_processed_files(
@@ -112,7 +114,10 @@ class TestMySQLUtil(TestCase):  # 继承至TestCase
             self.db_test,
             self.tb_test,
         )
-        expected = [(1, "test_file1", 1000, "2000-01-01 00:00:01"), (2, "test_file2", 1200, "2000-01-01 00:59:01")]
+        # 将字符串类型的时间转换为datetime类型
+        expected = [(1, "test_file1", 1000, datetime.datetime.strptime("2000-01-01 00:00:01", "%Y-%m-%d %H:%M:%S")),
+                    (2, "test_file2", 1200, datetime.datetime.strptime("2000-01-01 00:59:01", "%Y-%m-%d %H:%M:%S"))]
+
         self.assertEqual(expected, result)
         # 移除测试数据库
         self.db_util.execute(f'DROP DATABASE {self.db_test}')
