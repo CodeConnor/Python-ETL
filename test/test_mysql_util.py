@@ -8,43 +8,45 @@ from util.mysql_util import MySQLUtil
 from util.mysql_util import get_processed_files
 # 导入TestCase包
 from unittest import TestCase
+from config import project_config as conf
 
 
 class TestMySQLUtil(TestCase):  # 继承至TestCase
     # 初始化测试类
     def setUp(self) -> None:
-        # 创建对象
+        # 创建对象, 初始化测试库以及测试表
         self.db_util = MySQLUtil()
+        self.db_test = 'db_for_unittest'
+        self.tb_test = 'table_for_unittest'
 
     # 定义测试方法测试sql语句
     def test_query(self):
         '''
         测试MySQLUtil中的query方法
-        测试需要独立，不使用已存在的表，确保单元测试的方法，解耦合
+        测试需要独立，不使用已存在的表，解耦合
         以下一共测试了select_db, query, check_table_exists_and_create, check_table_exists, execute 5个方法
         :return:
         '''
         # 建立数据库
-        self.db_util.execute('CREATE DATABASE IF NOT EXISTS db_for_unittest CHARACTER SET utf8')
+        self.db_util.execute(f'CREATE DATABASE IF NOT EXISTS {self.db_test} CHARACTER SET utf8')
         # 连接数据库
-        self.db_util.select_db('db_for_unittest')
+        self.db_util.select_db(self.db_test)
         # 建表
         self.db_util.check_table_exists_and_create(
-            'db_for_unittest',
-            'tb_test',
-            'id int primary key, name varchar(20)')
+            self.db_test,
+            self.tb_test,
+            'id INT PRIMARY KEY, name VARCHAR(255)')
         # 删除并重建表，排除表内数据影响
-        self.db_util.execute('TRUNCATE tb_test')
+        self.db_util.execute(f'TRUNCATE {self.tb_test}')
         # 插入数据
-        self.db_util.execute('INSERT INTO tb_test VALUES(1, "Tom"),(2, "Lihua")')
+        self.db_util.execute(f'INSERT INTO {self.tb_test} VALUES(1, "Tom"), (2, "Lihua")')
         # 测试query
-        result = self.db_util.query('SELECT * FROM tb_test ORDER BY id')
+        result = self.db_util.query(f'SELECT * FROM {self.tb_test} ORDER BY id')
         expected = ((1, 'Tom'), (2, 'Lihua'))
         self.assertEqual(expected, result)
         # 清理单元测试残留
-        self.db_util.execute('DROP DATABASE db_for_unittest')
+        self.db_util.execute(f'DROP DATABASE {self.db_test}')
         self.db_util.close_conn()
-
 
     def test_execute_without_autocommit(self):
         '''
@@ -57,45 +59,61 @@ class TestMySQLUtil(TestCase):  # 继承至TestCase
         db_util1 = MySQLUtil()
         db_util1.conn.autocommit(True)
         # 建立数据库
-        db_util1.execute('CREATE DATABASE IF NOT EXISTS db_for_unittest CHARACTER SET utf8')
+        db_util1.execute(f'CREATE DATABASE IF NOT EXISTS {self.db_test} CHARACTER SET utf8')
         # 连接数据库
-        db_util1.select_db('db_for_unittest')
+        db_util1.select_db(self.db_test)
         # 建表
         db_util1.check_table_exists_and_create(
-            'db_for_unittest',
-            'tb_test',
-            'id int primary key, name varchar(20)')
+            self.db_test,
+            self.tb_test,
+            'id INT PRIMARY KEY, name VARCHAR(255)')
         # 删除并重建表，排除表内数据影响
-        db_util1.execute('TRUNCATE tb_test')
+        db_util1.execute(f'TRUNCATE {self.tb_test}')
         # 插入数据, 测试execute_without_autocommit
-        db_util1.execute_without_autocommit('INSERT INTO tb_test VALUES(1, "Tom")')
+        db_util1.execute_without_autocommit(f'INSERT INTO {self.tb_test} VALUES(1, "Tom")')
         # 验证结果
-        result = db_util1.query('SELECT * FROM tb_test ORDER BY id')
+        result = db_util1.query(f'SELECT * FROM {self.tb_test} ORDER BY id')
         expected = ((1, 'Tom'),)
         self.assertEqual(expected, result)
 
         # autocommit = False
         db_util1.conn.autocommit(False)
         # 插入数据, 测试execute_without_autocommit
-        db_util1.execute_without_autocommit('INSERT INTO tb_test VALUES(2, "Lihua")')
+        db_util1.execute_without_autocommit(f'INSERT INTO {self.tb_test} VALUES(2, "Lihua")')
         db_util1.close_conn()
         # 使用新的连接对象验证结果
         db_util2 = MySQLUtil()
-        db_util2.select_db('db_for_unittest')
+        db_util2.select_db(self.db_test)
         # 验证结果
-        result = db_util2.query('SELECT * FROM tb_test ORDER BY id')
+        result = db_util2.query(f'SELECT * FROM {self.tb_test} ORDER BY id')
         expected = ((1, 'Tom'),)
         self.assertEqual(expected, result)
 
         # 清理单元测试残留
-        db_util2.execute('DROP DATABASE db_for_unittest')
+        db_util2.execute(f'DROP DATABASE {self.db_test}')
         db_util2.close_conn()
-
 
     def test_get_processed_files(self):
         '''
         测试该独立方法
         :return:
         '''
-
-
+        # 建立测试数据库以及数据表
+        self.db_util.execute(f'CREATE DATABASE IF NOT EXISTS {self.db_test} CHARACTER SET utf8')
+        self.db_util.check_table_exists_and_create(
+            self.db_test,
+            self.tb_test,
+            conf.metadata_file_monitor_table_create_cols
+        )
+        self.db_util.execute(
+            f'INSERT INTO {self.tb_test} VALUES(1, "test_file1", 1000, "2000-01-01 00:00:01"),(2, "test_file2", 1200, "2000-01-01 00:59:01")')
+        result = get_processed_files(
+            self.db_util,
+            self.db_test,
+            self.tb_test,
+        )
+        expected = [(1, "test_file1", 1000, "2000-01-01 00:00:01"), (2, "test_file2", 1200, "2000-01-01 00:59:01")]
+        self.assertEqual(expected, result)
+        # 移除测试数据库
+        self.db_util.execute(f'DROP DATABASE {self.db_test}')
+        self.db_util.close_conn()

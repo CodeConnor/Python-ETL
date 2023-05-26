@@ -102,8 +102,27 @@ class MySQLUtil(object):
             self.execute(create_sql)
 
 
-def get_processed_files():
+def get_processed_files(db_util,
+                        db_name=conf.metadata_db_name,
+                        table_name=conf.metadata_file_monitor_table_name,
+                        create_cols=conf.metadata_file_monitor_table_create_cols
+                        ):
     '''
     该方法用于将已被处理的JSON文件的元数据存入元数据库中，创建并获取元数据表信息
-    :return:
+    :param db_util:被实例化的MySQLUtil对象
+    :param db_name:元数据库名称
+    :param table_name:存储元数据的数据表名称
+    :param create_cols:建表所用的列信息
+    :return:已处理文件的列表
     '''
+    # 选择数据库，若无表，则建立元数据数据表
+    db_util.select_db(db_name)
+    db_util.check_table_exists_and_create(
+        db_name,
+        table_name,
+        create_cols
+    )
+    # 元数据表查询结果转换为列表
+    processed_files = [i for i in db_util.query(f'SELECT * FROM {table_name} ORDER BY id')]
+    return processed_files
+
