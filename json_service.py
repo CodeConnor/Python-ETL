@@ -4,6 +4,7 @@ from util.logging_util import Logging
 from util import file_util as fu
 from config import project_config as conf
 from util.mysql_util import MySQLUtil, get_processed_files
+from model.retail_orders_model import OrdersModel
 
 # TODO: 步骤1--读取文件，获取待处理文件
 # 获取logger对象，用于后续输出日志
@@ -25,5 +26,12 @@ logger.info(f'通过对比元数据库，待处理文件如下：{files_to_be_pr
 
 # TODO: 步骤二--开始处理数据
 # 对待处理文件进行读取，按行读取，防止一次性读取文件中所有信息导致性能下降
+
+for file in files_to_be_processed:
+
+    for line in open(file, 'r', encoding='UTF-8'):
+        line = line.replace('\n', '')  # line是文件中的1行数据，需要将换行符替换为空字符
+        model = OrdersModel(line)  # 调用自定义类，将1行数据格式化为字典结构
+        break
 
 # 通过模型(将数据封装到类里面,一个字段,作为类的一个成员变量)来进行数据处理
