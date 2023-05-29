@@ -120,3 +120,10 @@ class OrdersModel:
             f"{time_util.ts13_to_date_str(self.date_ts)}"
 
         return csv_line
+
+    def generate_insert_sql(self):
+        '''
+        将模型转换为一条INSERT SQL语句
+        :return:
+        '''
+        sql = f"INSERT IGNORE INTO {table}({cols}) VALUES({data})}"
