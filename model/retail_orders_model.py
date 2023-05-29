@@ -57,3 +57,52 @@ class OrdersModel:
         self.store_create_date_ts = data['storeCreateDateTS']  # 店铺创建时间
         self.store_city = data['storeCity']  # 店铺所在城市
         self.member_id = data['memberID']  # 会员ID
+
+    def to_csv(self, sep=','):
+        '''
+        该方法用于将类中存储的数据转换为csv结构的字符串，以参数（sep）传入的符号作为分隔符
+        :param sep: csv中的分隔符
+        :return: str，csv格式的字符串
+        '''
+        csv_line = \
+            f"{self.order_id}{sep}" \
+            f"{self.store_id}{sep}" \
+            f"{self.store_name}{sep}" \
+            f"{self.store_status}{sep}" \
+            f"{self.store_own_user_id}{sep}" \
+            f"{self.store_own_user_name}{sep}" \
+            f"{self.store_own_user_tel}{sep}" \
+            f"{self.store_category}{sep}" \
+            f"{self.store_address}{sep}" \
+            f"{self.store_shop_no}{sep}" \
+            f"{self.store_province}{sep}" \
+            f"{self.store_city}{sep}" \
+            f"{self.store_district}{sep}" \
+            f"{self.store_gps_name}{sep}" \
+            f"{self.store_gps_address}{sep}" \
+            f"{self.store_gps_longitude}{sep}" \
+            f"{self.store_gps_latitude}{sep}" \
+            f"{self.is_signed}{sep}" \
+            f"{self.operator}{sep}" \
+            f"{self.operator_name}{sep}" \
+            f"{self.face_id}{sep}" \
+            f"{self.member_id}{sep}" \
+            f"{time_util.ts13_to_date_str(self.store_create_date_ts)}{sep}" \
+            f"{self.origin}{sep}" \
+            f"{self.day_order_seq}{sep}" \
+            f"{self.discount_rate}{sep}" \
+            f"{self.discount_type}{sep}" \
+            f"{self.discount}{sep}" \
+            f"{self.money_before_whole_discount}{sep}" \
+            f"{self.receivable}{sep}" \
+            f"{self.erase}{sep}" \
+            f"{self.small_change}{sep}" \
+            f"{self.total_no_discount}{sep}" \
+            f"{self.payed_total}{sep}" \
+            f"{self.pay_type}{sep}" \
+            f"{self.payment_channel}{sep}" \
+            f"{self.payment_scenarios}{sep}" \
+            f"{self.product_count}{sep}" \
+            f"{time_util.ts13_to_date_str(self.date_ts)}"
+
+        return csv_line
