@@ -7,6 +7,7 @@
 '''
 import json
 from util import time_util, str_util
+from config import project_config as conf
 
 
 class OrdersModel:
@@ -124,6 +125,65 @@ class OrdersModel:
     def generate_insert_sql(self):
         '''
         将模型转换为一条INSERT SQL语句
-        :return:
+        :return: SQL语句
         '''
-        sql = f"INSERT IGNORE INTO {table}({cols}) VALUES({data})}"
+        sql = f"INSERT IGNORE INTO {conf.target_orders_table_name}(" \
+              f"order_id,store_id,store_name,store_status,store_own_user_id," \
+              f"store_own_user_name,store_own_user_tel,store_category," \
+              f"store_address,store_shop_no,store_province,store_city," \
+              f"store_district,store_gps_name,store_gps_address," \
+              f"store_gps_longitude,store_gps_latitude,is_signed," \
+              f"operator,operator_name,face_id,member_id,store_create_date_ts," \
+              f"origin,day_order_seq,discount_rate,discount_type,discount," \
+              f"money_before_whole_discount,receivable,erase,small_change," \
+              f"total_no_discount,pay_total,pay_type,payment_channel," \
+              f"payment_scenarios,product_count,date_ts" \
+              f") VALUES(" \
+              f"'{self.order_id}', " \
+              f"{self.store_id}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_name)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_status)}, " \
+              f"{self.store_own_user_id}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_own_user_name)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_own_user_tel)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_category)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_address)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_shop_no)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_province)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_city)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_district)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_name)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_address)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_longitude)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.store_gps_latitude)}, " \
+              f"{self.is_signed}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.operator)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.operator_name)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.face_id)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.member_id)}, " \
+              f"'{time_util.ts13_to_date_str(self.store_create_date_ts)}', " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.origin)}, " \
+              f"{self.day_order_seq}, " \
+              f"{self.discount_rate}, " \
+              f"{self.discount_type}, " \
+              f"{self.discount}, " \
+              f"{self.money_before_whole_discount}, " \
+              f"{self.receivable}, " \
+              f"{self.erase}, " \
+              f"{self.small_change}, " \
+              f"{self.total_no_discount}, " \
+              f"{self.payed_total}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.pay_type)}, " \
+              f"{self.payment_channel}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.payment_scenarios)}, " \
+              f"{self.product_count}, " \
+              f"'{time_util.ts13_to_date_str(self.date_ts)}')"
+
+        return sql
+
+if __name__ == '__main__':
+    data = {"discountRate": 1, "storeShopNo": "None", "dayOrderSeq": 37, "storeDistrict": "芙蓉区", "isSigned": 0, "storeProvince": "湖南省", "origin": 0, "storeGPSLongitude": "undefined", "discount": 0, "storeID": 1766, "productCount": 1, "operatorName": "OperatorName", "operator": "NameStr", "storeStatus": "open", "storeOwnUserTel": 12345678910, "payType": "cash", "discountType": 2, "storeName": "亿户超市郭一一食品店", "storeOwnUserName": "OwnUserNameStr", "dateTS": 1542436490000, "smallChange": 0, "storeGPSName": "None", "erase": 0, "product": [{"count": 1, "name": "南京特醇", "unitID": 8, "barcode": "6901028300056", "pricePer": 12, "retailPrice": 12, "tradePrice": 11, "categoryID": 1}], "storeGPSAddress": "None", "orderID": "154243648991517662217", "moneyBeforeWholeDiscount": 12, "storeCategory": "normal", "receivable": 12, "faceID": "", "storeOwnUserId": 1694, "paymentChannel": 0, "paymentScenarios": "OTHER", "storeAddress": "StoreAddress", "totalNoDiscount": 12, "payedTotal": 12, "storeGPSLatitude": "undefined", "storeCreateDateTS": 1540793134000, "storeCity": "长沙市", "memberID": "0"}
+    data = json.dumps(data)
+    model = OrdersModel(data)
+    print(model.generate_insert_sql())
+

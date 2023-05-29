@@ -17,3 +17,14 @@ def check_null(data):
         # 数据无意义则进入if选项
         return True
     return False
+
+def check_str_null_and_transform_to_sql_null(data):
+    '''
+    检查字符串是否无意义，是则将无意义字符串转换为SQL中的NULL，否则返回原字符串
+    :param data: 待检查字符串
+    :return: "NULL" 或者 str
+    '''
+    if check_null(data):
+        return "NULL"
+    else:
+        return f"'{data}'"
