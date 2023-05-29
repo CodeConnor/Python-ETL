@@ -10,3 +10,10 @@ def check_null(data):
     :param data: str，待检查字符串
     :return: True：无意义， False：有意义
     '''
+    if not data:
+        return True
+    data = data.lower()  # 将字符串转换为小写，减少判断难度
+    if data == '' or data == 'none' or data == 'null' or data == 'undefined':
+        # 数据无意义则进入if选项
+        return True
+    return False
