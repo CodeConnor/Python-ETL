@@ -6,7 +6,7 @@
 - 订单和商品相关的数据模型(1对多的class模型)
 '''
 import json
-from util import time_util
+from util import time_util, str_util
 
 
 class OrdersModel:
@@ -59,12 +59,25 @@ class OrdersModel:
         self.store_city = data['storeCity']  # 店铺所在城市
         self.member_id = data['memberID']  # 会员ID
 
+    def check_and_transform_area(self):
+        '''
+        检查数据中省市区字段是否无意义，若无意义则将对应字符串替换为“未知”
+        :return:
+        '''
+        if str_util.check_null(self.store_province):
+            self.store_province = '未知省份'
+        if str_util.check_null(self.store_city):
+            self.store_city = '未知城市'
+        if str_util.check_null(self.store_district):
+            self.store_district = '未知行政区'
+
     def to_csv(self, sep=','):
         '''
         该方法用于将类中存储的数据转换为csv结构的字符串，以参数（sep）传入的符号作为分隔符
         :param sep: csv中的分隔符
         :return: str，csv格式的字符串
         '''
+        self.check_and_transform_area()  # 将无意义省市区字符串替换掉
         csv_line = \
             f"{self.order_id}{sep}" \
             f"{self.store_id}{sep}" \
