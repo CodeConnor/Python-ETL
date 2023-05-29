@@ -14,6 +14,10 @@ class TestStrUtil(TestCase):
         result = str_util.check_null(data)
         self.assertTrue(result)
 
+        data = 'NONE'
+        result = str_util.check_null(data)
+        self.assertTrue(result)
+
         data = 'none'
         result = str_util.check_null(data)
         self.assertTrue(result)
