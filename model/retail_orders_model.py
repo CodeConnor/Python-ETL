@@ -190,9 +190,32 @@ class OrdersDetailModel:
         从传入的字符串数据构建订单详情model
         :param data: str，从JSON数据文件中读取的字符串信息
         '''
-        data = json.loads(data)  # 将字符串转换为json对象
-        self.order_id = data['orderID']  # 订单ID
-        self.product = []
+        data_dict = json.loads(data)  # 将字符串转换为json对象
+        self.order_id = data_dict['orderID']  # 订单ID
+        self.products_detail = []  # 使用该列表存储多个商品详情信息，列表内为商品信息的子模型（SingleProductSoldModel）对象
+        orders_product_list = data_dict['product']  # 取出商品信息列表
+        for single_product in orders_product_list:  # 再使用for循环将其中商品信息列表的字典传入子模型对象
+            self.products_detail.append(SingleProductSoldModel(self.order_id, single_product))
+
+class SingleProductSoldModel:
+    '''订单内售卖的单类商品信息, 包含订单ID + 单个商品售卖信息'''
+
+    def __init__(self, order_id, product_detail_dict):
+        '''
+        构建单个商品售卖信息的子模型
+        :param order_id: 传入的订单ID
+        :param product_detail_dict: 传入的商品信息字典
+        '''
+        self.order_id = order_id                                # 订单ID
+        self.count = product_detail_dict['count']               # 售卖数量
+        self.name = product_detail_dict['name']                 # 商品名称
+        self.unit_id = product_detail_dict['unitID']            # 单位ID
+        self.barcode = product_detail_dict['barcode']           # 条形码
+        self.price_per = product_detail_dict['pricePer']        # 每个商品售卖成交价格
+        self.retail_price = product_detail_dict['retailPrice']  # 商品建议零售价
+        self.trade_price = product_detail_dict['tradePrice']    # 商品建议成本价
+        self.category_id = product_detail_dict['categoryID']    # 商品类别ID
+
 
 
 if __name__ == '__main__':
