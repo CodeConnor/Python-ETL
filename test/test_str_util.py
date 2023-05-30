@@ -63,6 +63,6 @@ class TestStrUtil(TestCase):
         result = str_util.check_str_null_and_transform_to_sql_null(data)
         self.assertEqual("NULL", result)
 
-        data = '有意义数据'
+        data = 111110000
         result = str_util.check_str_null_and_transform_to_sql_null(data)
         self.assertEqual(f"'{data}'", result)
