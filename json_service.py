@@ -7,6 +7,17 @@ from util.mysql_util import MySQLUtil, get_processed_files
 from model.retail_orders_model import OrdersModel, OrdersDetailModel
 
 # TODO: 步骤1--读取文件，获取待处理文件
+# 构建数据库连接
+orders_db_util = MySQLUtil()  # 建立元数据库连接
+# 建立目标数据库连接
+target_db_util = MySQLUtil(
+    host=conf.target_host,
+    port=conf.target_port,
+    user=conf.target_user,
+    password=conf.target_password
+)
+
+
 # 获取logger对象，用于后续输出日志
 logger = Logging().init_logger()
 logger.info('程序启动，开始读取JSON数据......')
@@ -16,7 +27,6 @@ files = fu.get_dir_files_list(conf.json_root_path)
 logger.info(f'读取JSON数据路径，所获文件如下：{files}')
 
 # 将已处理JSON数据文件信息存入元数据库
-orders_db_util = MySQLUtil()
 processed_files = get_processed_files(orders_db_util)
 logger.info(f'读取元数据库，所获已处理文件如下：{processed_files}')
 
@@ -70,6 +80,16 @@ for file in files_to_be_processed:
     # for model in order_detail_model_list:
     #     order_detail_csv_write_f.write(model.to_csv())  # 注意:该方法中已经添加了换行符'\n'，所以之后无需重复添加
     # order_detail_csv_write_f.close()
+
+    # 将数据写入到MySQL中
+    # 判断待写入的表是否存在于MySQL中，不存在则创建
+    # 判断订单表
+    target_db_util.check_table_exists_and_create(
+        conf.target_db_name,
+        conf.target_orders_table_name,
+        conf.target_orders_table_create_cols
+    )
+
 
 logger.info(f'CSV备份文件写出完成，写出路径：{conf.retail_output_csv_root_path}')
 
