@@ -1,7 +1,0 @@
-2023-05-26 16:21:05,305 - [INFO] - json_service.py[10]: 程序启动，开始读取JSON数据......
-2023-05-26 16:21:05,306 - [INFO] - json_service.py[14]: 读取JSON数据路径，所获文件如下：['D:/Python/pyetl-data/json/x00', 'D:/Python/pyetl-data/json/x01', 'D:/Python/pyetl-data/json/x02', 'D:/Python/pyetl-data/json/x03', 'D:/Python/pyetl-data/json/x04', 'D:/Python/pyetl-data/json/x05', 'D:/Python/pyetl-data/json/x06', 'D:/Python/pyetl-data/json/x07', 'D:/Python/pyetl-data/json/x08', 'D:/Python/pyetl-data/json/x09', 'D:/Python/pyetl-data/json/x10']
-2023-05-26 16:21:05,307 - [INFO] - mysql_util.py[25]: localhost:3306数据库连接构建完成...
-2023-05-26 16:21:05,323 - [INFO] - mysql_util.py[46]: SHOW TABLES被执行，返回1条数据
-2023-05-26 16:21:05,323 - [INFO] - mysql_util.py[46]: SELECT file_name FROM file_monitor ORDER BY id被执行，返回0条数据
-2023-05-26 16:21:05,323 - [INFO] - json_service.py[19]: 读取元数据库，所获已处理文件如下：[]
-2023-05-26 16:21:05,323 - [INFO] - json_service.py[23]: 通过对比元数据库，待处理文件如下：['D:/Python/pyetl-data/json/x00', 'D:/Python/pyetl-data/json/x01', 'D:/Python/pyetl-data/json/x02', 'D:/Python/pyetl-data/json/x03', 'D:/Python/pyetl-data/json/x04', 'D:/Python/pyetl-data/json/x05', 'D:/Python/pyetl-data/json/x06', 'D:/Python/pyetl-data/json/x07', 'D:/Python/pyetl-data/json/x08', 'D:/Python/pyetl-data/json/x09', 'D:/Python/pyetl-data/json/x10']
