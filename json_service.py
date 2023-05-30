@@ -16,8 +16,8 @@ files = fu.get_dir_files_list(conf.json_root_path)
 logger.info(f'读取JSON数据路径，所获文件如下：{files}')
 
 # 将已处理JSON数据文件信息存入元数据库
-db_util = MySQLUtil()
-processed_files = get_processed_files(db_util)
+orders_db_util = MySQLUtil()
+processed_files = get_processed_files(orders_db_util)
 logger.info(f'读取元数据库，所获已处理文件如下：{processed_files}')
 
 # 通过对比JSON文件列表与已处理文件列表，找出待处理文件
