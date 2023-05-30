@@ -37,3 +37,32 @@ class TestStrUtil(TestCase):
         data = '有意义数据'
         result = str_util.check_null(data)
         self.assertFalse(result)
+
+    def test_check_str_null_and_transform_to_sql_null(self):
+        data = None
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual("NULL", result)
+
+        data = 'NONE'
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual("NULL", result)
+
+        data = 'none'
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual("NULL", result)
+
+        data = 'null'
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual("NULL", result)
+
+        data = 'undefined'
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual("NULL", result)
+
+        data = ''
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual("NULL", result)
+
+        data = '有意义数据'
+        result = str_util.check_str_null_and_transform_to_sql_null(data)
+        self.assertEqual(f"'{data}'", result)

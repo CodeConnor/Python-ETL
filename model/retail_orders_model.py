@@ -181,9 +181,35 @@ class OrdersModel:
 
         return sql
 
+
+class OrdersDetailModel:
+    '''订单详情模型，包含订单ID + 商品详情数据'''
+
+    def __init__(self, data: str):
+        '''
+        从传入的字符串数据构建订单详情model
+        :param data: str，从JSON数据文件中读取的字符串信息
+        '''
+        data = json.loads(data)  # 将字符串转换为json对象
+        self.order_id = data['orderID']  # 订单ID
+        self.product = []
+
+
 if __name__ == '__main__':
-    data = {"discountRate": 1, "storeShopNo": "None", "dayOrderSeq": 37, "storeDistrict": "芙蓉区", "isSigned": 0, "storeProvince": "湖南省", "origin": 0, "storeGPSLongitude": "undefined", "discount": 0, "storeID": 1766, "productCount": 1, "operatorName": "OperatorName", "operator": "NameStr", "storeStatus": "open", "storeOwnUserTel": 12345678910, "payType": "cash", "discountType": 2, "storeName": "亿户超市郭一一食品店", "storeOwnUserName": "OwnUserNameStr", "dateTS": 1542436490000, "smallChange": 0, "storeGPSName": "None", "erase": 0, "product": [{"count": 1, "name": "南京特醇", "unitID": 8, "barcode": "6901028300056", "pricePer": 12, "retailPrice": 12, "tradePrice": 11, "categoryID": 1}], "storeGPSAddress": "None", "orderID": "154243648991517662217", "moneyBeforeWholeDiscount": 12, "storeCategory": "normal", "receivable": 12, "faceID": "", "storeOwnUserId": 1694, "paymentChannel": 0, "paymentScenarios": "OTHER", "storeAddress": "StoreAddress", "totalNoDiscount": 12, "payedTotal": 12, "storeGPSLatitude": "undefined", "storeCreateDateTS": 1540793134000, "storeCity": "长沙市", "memberID": "0"}
+    data = {"discountRate": 1, "storeShopNo": "None", "dayOrderSeq": 37, "storeDistrict": "芙蓉区", "isSigned": 0,
+            "storeProvince": "湖南省", "origin": 0, "storeGPSLongitude": "undefined", "discount": 0, "storeID": 1766,
+            "productCount": 1, "operatorName": "OperatorName", "operator": "NameStr", "storeStatus": "open",
+            "storeOwnUserTel": 12345678910, "payType": "cash", "discountType": 2, "storeName": "亿户超市郭一一食品店",
+            "storeOwnUserName": "OwnUserNameStr", "dateTS": 1542436490000, "smallChange": 0, "storeGPSName": "None",
+            "erase": 0, "product": [
+            {"count": 1, "name": "南京特醇", "unitID": 8, "barcode": "6901028300056", "pricePer": 12, "retailPrice": 12,
+             "tradePrice": 11, "categoryID": 1}], "storeGPSAddress": "None", "orderID": "154243648991517662217",
+            "moneyBeforeWholeDiscount": 12, "storeCategory": "normal", "receivable": 12, "faceID": "",
+            "storeOwnUserId": 1694, "paymentChannel": 0, "paymentScenarios": "OTHER", "storeAddress": "StoreAddress",
+            "totalNoDiscount": 12, "payedTotal": 12, "storeGPSLatitude": "undefined",
+            "storeCreateDateTS": 1540793134000, "storeCity": "长沙市", "memberID": "0"}
     data = json.dumps(data)
     model = OrdersModel(data)
     print(model.generate_insert_sql())
 
+    data_detail = '{"discountRate": 1, "storeShopNo": "None", "dayOrderSeq": 28, "storeDistrict": "天心区", "isSigned": 0, "storeProvince": "湖南省", "origin": 0, "storeGPSLongitude": "112.96973", "discount": 0, "storeID": 1732, "productCount": 2, "operatorName": "OperatorName", "operator": "NameStr", "storeStatus": "open", "storeOwnUserTel": 12345678910, "payType": "cash", "discountType": 2, "storeName": "佳时利超市", "storeOwnUserName": "OwnUserNameStr", "dateTS": 1542436491000, "smallChange": 0, "storeGPSName": "None", "erase": 0, "product": [{"count": 1, "name": "维他命水柠檬味500ml", "unitID": 2, "barcode": "6921168550128", "pricePer": 5, "retailPrice": 5, "tradePrice": 0, "categoryID": 11}, {"count": 1, "name": "欢乐家生榨椰子汁5L", "unitID": 2, "barcode": "6924254686299", "pricePer": 13.5, "retailPrice": 13.5, "tradePrice": 0, "categoryID": 11}], "storeGPSAddress": "None", "orderID": "154243649043817324304", "moneyBeforeWholeDiscount": 18.5, "storeCategory": "normal", "receivable": 18.5, "faceID": "", "storeOwnUserId": 1656, "paymentChannel": 0, "paymentScenarios": "OTHER", "storeAddress": "StoreAddress", "totalNoDiscount": 18.5, "payedTotal": 18.5, "storeGPSLatitude": "28.083906", "storeCreateDateTS": 1540619466000, "storeCity": "长沙市", "memberID": "0"}'
