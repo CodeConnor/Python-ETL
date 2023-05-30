@@ -3,7 +3,6 @@
 '''
 import time
 
-
 # =========================== 程序运行日志配置项 start ====================================
 # 日志输出根目录
 log_root_path = 'D:/Python/PycharmProjects/Python-ETL/log/'
@@ -15,6 +14,13 @@ log_name = f'pyetl-{time.strftime("%Y%m%d-%H", time.localtime(time.time()))}.log
 # =========================== JSON订单数据采集配置项 start ================================
 # JSON数据所在路径
 json_root_path = 'D:/Python/pyetl-data/json'
+
+# 数据写出到CSV文件的目录路径
+retail_output_csv_root_path = 'D:/Python/pyetl-data/output/csv'
+# 订单模型数据写出到CSV文件的文件名
+retail_orders_output_csv_file_name = f'orders-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
+# 订单详情模型数据写出到CSV文件的文件名
+retail_orders_detail_output_csv_file_name = f'orders-detail-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
 # =========================== JSON订单数据采集配置项 end ==================================
 
 
@@ -44,7 +50,7 @@ target_port = 3306
 target_user = 'root'
 target_password = '123456'
 target_db_name = 'retail'  # 目标数据库
-target_orders_table_name = 'orders'  # 订单信息表
+target_orders_table_name = 'orders'  # 订单信息表(不含商品详情信息)
 # 订单信息表建表
 target_orders_table_create_cols = \
     f"order_id VARCHAR(255) PRIMARY KEY, " \
@@ -88,6 +94,18 @@ target_orders_table_create_cols = \
     f"date_ts TIMESTAMP COMMENT '订单时间', " \
     f"INDEX (receivable), INDEX (date_ts)"
 
+target_orders_detail_table_name = 'orders_detail'  # 订单详情表(含商品详情信息)
+# 订单详情表建表
+target_orders_detail_table_create_cols = \
+    f"order_id VARCHAR(255) COMMENT '订单ID', " \
+    f"barcode VARCHAR(255) COMMENT '商品条码', " \
+    f"name VARCHAR(255) COMMENT '商品名称', " \
+    f"count INT COMMENT '本单此商品卖出数量', " \
+    f"price_per DECIMAL(10, 5) COMMENT '实际售卖单价', " \
+    f"retail_price DECIMAL(10, 5) COMMENT '零售建议价', " \
+    f"trade_price DECIMAL(10, 5) COMMENT '贸易价格(进货价)', " \
+    f"category_id INT COMMENT '商品类别ID', " \
+    f"unit_id INT COMMENT '商品单位ID(包、袋、箱、等)', " \
+    f"PRIMARY KEY (order_id, barcode)"
 
 # ============================= mysql 配置 end =========================================
-

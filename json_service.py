@@ -26,7 +26,6 @@ logger.info(f'通过对比元数据库，待处理文件如下：{files_to_be_pr
 
 # TODO: 步骤二--开始处理数据
 # 对待处理文件进行读取，按行读取，防止一次性读取文件中所有信息导致性能下降
-
 for file in files_to_be_processed:
 
     for line in open(file, 'r', encoding='UTF-8'):
