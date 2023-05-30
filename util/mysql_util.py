@@ -11,15 +11,22 @@ logger = Logging().init_logger()
 class MySQLUtil(object):
     '''创建pymysql工具类'''
 
-    def __init__(self):
-        '''初始化MySQL配置信息为属性'''
+    def __init__(self,
+                 host=conf.metadata_host,
+                 port=conf.metadata_port,
+                 user=conf.metadata_user,
+                 password=conf.metadata_password,
+                 charset=conf.mysql_charset,
+                 autocommit=False
+                 ):
+        '''初始化MySQL配置信息为属性，默认连接元数据库，可通过传参连接其他数据库'''
         self.conn = pymysql.Connection(  # 创建pymysql对象，连接数据库
-            host=conf.metadata_host,  # 主机名，IP地址
-            port=conf.metadata_port,  # 端口号
-            user=conf.metadata_user,  # 用户
-            password=conf.metadata_password,  # 密码
-            charset=conf.mysql_charset,  # 设置字符集
-            autocommit=False  # SQL语句的自动提交，为False时，执行`self.conn.commit()`后，SQL语句才会提交到数据库中执行
+            host=host,  # 主机名，IP地址
+            port=port,  # 端口号
+            user=user,  # 用户
+            password=password,  # 密码
+            charset=charset,  # 设置字符集
+            autocommit=autocommit  # SQL语句的自动提交，为False时，执行`self.conn.commit()`后，SQL语句才会提交到数据库中执行
         )
         # 输出info日志
         logger.info(f'{conf.metadata_host}:{conf.metadata_port}数据库连接构建完成...')
