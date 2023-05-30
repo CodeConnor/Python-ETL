@@ -3,7 +3,7 @@
 字符串处理的相关工具方法
 '''
 
-def check_null(data):
+def check_null(data: str):
     '''
     检查字符串是否为无意义字符串，是则返回True，否则返回False
     无意义：内容为空字符串、None、null、undefined
