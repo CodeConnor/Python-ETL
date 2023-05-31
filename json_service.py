@@ -36,7 +36,7 @@ logger.info(f'通过对比元数据库，待处理文件如下：{files_to_be_pr
 
 # TODO: 步骤二--开始处理数据
 count = 0  # 记录被处理数据的行数
-count_filter = 0  # 记录过滤后保留的数据行数
+count_reserved = 0  # 记录过滤后保留的数据行数
 # 对待处理文件进行读取，按行读取，防止一次性读取文件中所有信息导致性能下降
 for file in files_to_be_processed:
     order_model_list = []  # 存储所有订单模型对象
@@ -53,7 +53,7 @@ for file in files_to_be_processed:
             order_model_list.append(order_model)
             order_detail_model = OrdersDetailModel(line)
             order_detail_model_list.append(order_detail_model)
-            count_filter += 1
+            count_reserved += 1
 
     # 将订单模型的中的数据写出到CSV文件
     order_csv_write_f = open(  # 用于写出订单模型的文件对象
@@ -101,17 +101,19 @@ for file in files_to_be_processed:
     # 将订单数据写入订单表
     for model in order_model_list:
         orders_sql = model.generate_insert_sql()
+        target_db_util.select_db(conf.target_db_name)
         # 如果使用execute自动提交会导致执行1000条插入就要提交1000次，性能很低
         target_db_util.execute_without_autocommit(orders_sql)  # 先执行不提交，最后一次性提交，还能满足`事务处理`的要求
 
     # 将订单详情数据写入订单详情表
     for model in order_detail_model_list:
         orders_detail_sql = model.generate_insert_sql()
+        target_db_util.select_db(conf.target_db_name)
         target_db_util.execute_without_autocommit(orders_detail_sql)
 
 target_db_util.conn.commit()  # 一次性提交所有SQL
 logger.info(f'CSV备份文件写出完成，写出路径：{conf.retail_output_csv_root_path}')
-logger.info(f'json数据写入target数据库成功，共处理：{count}行，过滤：{count - count_filter}行')
+logger.info(f'json数据写入target数据库成功，共处理：{count}行，写入：{count_reserved}行，过滤：{count - count_reserved}行')
 
 
 
