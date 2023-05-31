@@ -202,7 +202,7 @@ class OrdersDetailModel:
         将模型转换为一条INSERT SQL语句
         :return: SQL语句
         """
-        sql = f"INSERT IGNORE INTO {conf.target_orders_table_name}(" \
+        sql = f"INSERT IGNORE INTO {conf.target_orders_detail_table_name}(" \
               f"order_id,barcode,name,count,price_per,retail_price,trade_price,category_id,unit_id) VALUES"
         # 遍历取出剩余的SQL语句中的values字段值，针对字符串检查字段值是否有意义
         for model in self.products_detail:

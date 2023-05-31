@@ -35,6 +35,8 @@ files_to_be_processed = fu.get_new_files_by_comparing_lists(files, processed_fil
 logger.info(f'通过对比元数据库，待处理文件如下：{files_to_be_processed}')
 
 # TODO: 步骤二--开始处理数据
+count = 0  # 记录被处理数据的行数
+count_filter = 0  # 记录过滤后保留的数据行数
 # 对待处理文件进行读取，按行读取，防止一次性读取文件中所有信息导致性能下降
 for file in files_to_be_processed:
     order_model_list = []  # 存储所有订单模型对象
@@ -43,16 +45,15 @@ for file in files_to_be_processed:
     for line in open(file, 'r', encoding='UTF-8'):
         line = line.replace('\n', '')  # line是文件中的1行数据，需要将换行符替换为空字符
         order_model = OrdersModel(line)  # 调用自定义类，将1行数据实例化为1个模型对象
-        order_model_list.append(order_model)
-        order_detail_model = OrdersDetailModel(line)
-        order_detail_model_list.append(order_detail_model)
-    # 过滤数据
-    # receivable表示本订单的实收金额
-    # 若receivable的金额非常大，则说明订单异常，大于10000的数据都需要过滤掉
-    reserved_model_list = []  # 存储过滤后的模型对象
-    for model in order_model_list:
-        if model.receivable <= 10000:
-            reserved_model_list.append(model)
+        count += 1
+        # 过滤数据
+        # receivable表示本订单的实收金额
+        # 若receivable的金额非常大，则说明订单异常，大于10000的数据都需要过滤掉（实际业务中过滤需求不同）
+        if order_model.receivable <= 10000:
+            order_model_list.append(order_model)
+            order_detail_model = OrdersDetailModel(line)
+            order_detail_model_list.append(order_detail_model)
+            count_filter += 1
 
     # 将订单模型的中的数据写出到CSV文件
     order_csv_write_f = open(  # 用于写出订单模型的文件对象
@@ -63,7 +64,7 @@ for file in files_to_be_processed:
         conf.retail_output_csv_root_path + conf.retail_orders_detail_output_csv_file_name, 'w', encoding='UTF-8'
     )
 
-    for model in reserved_model_list:
+    for model in order_model_list:
         # 写入订单模型信息
         order_csv_write_f.write(model.to_csv())  # 将模型中的数据转换为CSV格式的字符串再写入文件
         order_csv_write_f.write('\n')  # 写入换行符
@@ -90,8 +91,27 @@ for file in files_to_be_processed:
         conf.target_orders_table_create_cols
     )
 
+    # 判断订单详情表
+    target_db_util.check_table_exists_and_create(
+        conf.target_db_name,
+        conf.target_orders_detail_table_name,
+        conf.target_orders_detail_table_create_cols
+    )
 
+    # 将订单数据写入订单表
+    for model in order_model_list:
+        orders_sql = model.generate_insert_sql()
+        # 如果使用execute自动提交会导致执行1000条插入就要提交1000次，性能很低
+        target_db_util.execute_without_autocommit(orders_sql)  # 先执行不提交，最后一次性提交，还能满足`事务处理`的要求
+
+    # 将订单详情数据写入订单详情表
+    for model in order_detail_model_list:
+        orders_detail_sql = model.generate_insert_sql()
+        target_db_util.execute_without_autocommit(orders_detail_sql)
+
+target_db_util.conn.commit()  # 一次性提交所有SQL
 logger.info(f'CSV备份文件写出完成，写出路径：{conf.retail_output_csv_root_path}')
+logger.info(f'json数据写入target数据库成功，共处理：{count}行，过滤：{count - count_filter}行')
 
 
 
