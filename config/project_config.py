@@ -25,7 +25,7 @@ retail_orders_detail_output_csv_file_name = f'orders-detail-{time.strftime("%Y%m
 
 
 # ============================= mysql 配置 start =======================================
-# 元数据管理库配置
+# ################### 元数据管理库配置 ############################
 metadata_host = 'localhost'
 metadata_port = 3306
 metadata_user = 'root'
@@ -33,7 +33,8 @@ metadata_password = '123456'
 mysql_charset = 'utf8'
 
 metadata_db_name = 'metadata'  # 元数据库名称
-metadata_file_monitor_table_name = 'file_monitor'  # 元数据表名称
+# 文件监控表（文件元数据表），记录哪些文件已被处理
+metadata_file_monitor_table_name = 'file_monitor'
 # 元数据表建表语句
 metadata_file_monitor_table_create_cols = '''
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,9 +43,14 @@ metadata_file_monitor_table_create_cols = '''
     process_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '文件处理时间'
 '''
 
-# 业务数据源数据库配置
+# 记录barcode数据表的update_at字段的元数据表
+metadata_barcode_monitor_table_name = 'barcode_monitor'
+metadata_barcode_monitor_table_create_cols = "" \
+                                             "id INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增ID', " \
+                                             "time_record TIMESTAMP NOT NULL COMMENT '本次采集记录的最大时间', " \
+                                             "gather_line_count INT NULL COMMENT '本次采集条数'"
 
-# 目标数据库配置
+# #################### 目标数据库配置 ######################
 target_host = 'localhost'
 target_port = 3306
 target_user = 'root'
@@ -107,5 +113,36 @@ target_orders_detail_table_create_cols = \
     f"category_id INT COMMENT '商品类别ID', " \
     f"unit_id INT COMMENT '商品单位ID(包、袋、箱、等)', " \
     f"PRIMARY KEY (order_id, barcode)"
+
+# 采集barcode数据，写入MySQL的表名与建表
+target_barcode_table_name = "barcode"  # barcode数据表（商品数据表）
+# barcode数据表建表
+target_barcode_table_create_cols = """
+`code` varchar(50) PRIMARY KEY COMMENT '商品条码',
+`name` varchar(200) DEFAULT '' COMMENT '商品名称',
+`spec` varchar(200) DEFAULT '' COMMENT '商品规格',
+`trademark` varchar(100) DEFAULT '' COMMENT '商品商标',
+`addr` varchar(200) DEFAULT '' COMMENT '商品产地',
+`units` varchar(50) DEFAULT '' COMMENT '商品单位(个、杯、箱、等)',
+`factory_name` varchar(200) DEFAULT '' COMMENT '生产厂家',
+`trade_price` DECIMAL(50, 5) DEFAULT 0.0 COMMENT '贸易价格(指导进价)',
+`retail_price` DECIMAL(50, 5) DEFAULT 0.0 COMMENT '零售价格(建议卖价)',
+`update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+`wholeunit` varchar(50) DEFAULT NULL COMMENT '大包装单位',
+`wholenum` int(11) DEFAULT NULL COMMENT '大包装内装数量',
+`img` varchar(500) DEFAULT NULL COMMENT '商品图片',
+`src` varchar(20) DEFAULT NULL COMMENT '源信息', 
+INDEX (update_at)
+"""
+
+
+# ###################### 业务数据源数据库配置 ###########################
+source_host = 'localhost'
+source_port = 3306
+source_user = 'root'
+source_password = '123456'
+source_db_name = 'source_data'
+source_barcode_table_name = 'sys_barcode'
+
 
 # ============================= mysql 配置 end =========================================
