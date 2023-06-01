@@ -29,7 +29,7 @@ class MySQLUtil(object):
             autocommit=autocommit  # SQL语句的自动提交，为False时，执行`self.conn.commit()`后，SQL语句才会提交到数据库中执行
         )
         # 输出info日志
-        logger.info(f'{conf.metadata_host}:{conf.metadata_port}数据库连接构建完成...')
+        logger.info(f'{host}:{port}数据库连接构建完成...')
 
     def close_conn(self):
         '''关闭数据库连接'''
