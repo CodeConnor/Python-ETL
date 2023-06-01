@@ -75,3 +75,6 @@ else:
 # 执行查询
 source_db_util.select_db(conf.source_db_name)
 result = source_db_util.query(barcode_query_sql)
+
+# TODO: 步骤三 -- 使用模型构建 INSERT 插入语句
+

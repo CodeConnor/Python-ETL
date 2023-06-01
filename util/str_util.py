@@ -28,3 +28,21 @@ def check_str_null_and_transform_to_sql_null(data):
         return "NULL"
     else:
         return f"'{data}'"
+
+def clean_str(data):
+    '''
+    排除脏数据影响
+    例如：可口可乐\，其中的斜杠会影响程序执行（转义）
+    '''
+    if check_null(data):
+        # 无意义内容不影响，直接返回
+        return data
+    else:
+        # 排除特殊符号影响
+        data = data.replace("'", "")
+        data = data.replace('"', "")
+        data = data.replace("\\", "")
+        data = data.replace("@", "")
+        data = data.replace(";", "")
+        data = data.replace(",", "")
+        return data
