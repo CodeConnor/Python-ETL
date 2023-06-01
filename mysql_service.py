@@ -19,8 +19,17 @@ target_db_util = MySQLUtil(
     user=conf.target_user,
     password=conf.target_password,
 )
+# 连接数据源source数据库
 source_db_util = MySQLUtil(
-
+    host=conf.source_host,
+    port=conf.source_port,
+    user=conf.source_user,
+    password=conf.source_password
 )
 
 # TODO：步骤2 -- 从数据源中读取数据
+# 判断需要采集的数据表是否存在
+if not source_db_util.check_table_exists(conf.source_db_name, conf.source_barcode_table_name):
+    logger.error(f'数据源库：{conf.source_db_name}中不存在数据源表：{conf.source_barcode_table_name}，'
+                 f'无法采集，程序终止，请核实原因...')
+    sys.exit(1)  # 发生异常，终止程序
