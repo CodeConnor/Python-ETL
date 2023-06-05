@@ -3,6 +3,7 @@
 构建商品数据（barcode data）模型
 '''
 from util import str_util
+from config import project_config as conf
 
 class BarcodeModel:
     def __init__(self, code=None, name=None, spec=None, trademark=None,
@@ -24,3 +25,29 @@ class BarcodeModel:
         self.img = img
         self.src = src
 
+    def generate_insert_sql(self):
+        '''
+        生成插入语句，因为数据是根据数据更新时间（update_at）进行筛选的，为了不漏掉数据筛选条件为 >= update_at
+        这就导致会重复插入部分数据，为了插入数据不报错，使用replace into进行插入
+        :return: sql语句
+        '''
+        sql = f"REPLACE INTO {conf.source_barcode_table_name}(" \
+              f"code,name,spec,trademark,addr,units,factory_name,trade_price," \
+              f"retail_price,update_at,wholeunit,wholenum,img,src) VALUES(" \
+              f"'{self.code}', " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.name)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.spec)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.trademark)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.addr)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.units)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.factory_name)}, " \
+              f"{str_util.check_number_null_and_transform_to_sql_null(self.trade_price)}, " \
+              f"{str_util.check_number_null_and_transform_to_sql_null(self.retail_price)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.update_at)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.wholeunit)}, " \
+              f"{str_util.check_number_null_and_transform_to_sql_null(self.wholenum)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.img)}, " \
+              f"{str_util.check_str_null_and_transform_to_sql_null(self.src)}" \
+              f")"
+
+        return sql
