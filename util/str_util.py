@@ -3,6 +3,7 @@
 字符串处理的相关工具方法
 '''
 
+
 def check_null(data: str):
     '''
     检查字符串是否为无意义字符串，是则返回True，否则返回False
@@ -18,6 +19,7 @@ def check_null(data: str):
         return True
     return False
 
+
 def check_str_null_and_transform_to_sql_null(data):
     '''
     检查字符串是否无意义，是则将无意义字符串转换为SQL中的NULL，否则返回原字符串
@@ -28,6 +30,19 @@ def check_str_null_and_transform_to_sql_null(data):
         return "NULL"
     else:
         return f"'{data}'"
+
+
+def check_number_null_and_transform_to_sql_null(data):
+    '''
+    检查数字是否无意义，是则将无意义数字转换为SQL中的NULL，否则返回原数字内容
+    :param data: 待检查数字
+    :return: "NULL" 或者 data
+    '''
+    if data and not check_null(str(data)):
+        return data
+    else:
+        return "NULL"
+
 
 def clean_str(data):
     '''
