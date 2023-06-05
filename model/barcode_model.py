@@ -51,3 +51,22 @@ class BarcodeModel:
               f")"
 
         return sql
+
+    def to_csv(self, sep=","):
+        csv_line = \
+        f"{self.code}{sep}"
+        f"{self.name}{sep}"
+        f"{self.spec}{sep}"
+        f"{self.trademark}{sep}"
+        f"{self.addr}{sep}"
+        f"{self.units}{sep}"
+        f"{self.factory_name}{sep}"
+        f"{self.trade_price}{sep}"
+        f"{self.retail_price}{sep}"
+        f"{self.update_at}{sep}"
+        f"{self.wholeunit}{sep}"
+        f"{self.wholenum}{sep}"
+        f"{self.img}{sep}"
+        f"{self.src}"
+
+        return csv_line
