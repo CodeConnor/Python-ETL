@@ -67,17 +67,26 @@ for file in files_to_be_processed:
         conf.retail_output_csv_root_path + conf.retail_orders_detail_output_csv_file_name, 'a', encoding='UTF-8'
     )
 
+    count_csv = 0  # 记录数据写入行数
     for model in order_model_list:
         # 写入订单模型信息
         order_csv_write_f.write(model.to_csv())  # 将模型中的数据转换为CSV格式的字符串再写入文件
         order_csv_write_f.write('\n')  # 写入换行符
+        count_csv += 1
+        if count_csv % 1000 == 0:
+            # 每写入1000条数据就提交一次，防止爆缓存
+            order_csv_write_f.flush()
     order_csv_write_f.close()
 
+    count_csv = 0  # 记录数据写入行数
     for model in order_detail_model_list:
         # 写入订单详情模型信息
         for single_product_model in model.products_detail:  # 遍历模型存储的子模型（SingleProductSoldModel），使用子模型的to_csv方法
             order_detail_csv_write_f.write(single_product_model.to_csv())
             order_detail_csv_write_f.write('\n')
+            if count_csv % 1000 == 0:
+                # 每写入1000条数据就提交一次，防止爆缓存
+                order_csv_write_f.flush()
     order_detail_csv_write_f.close()
 
     # 以下方法效果相同，调用了OrdersDetailModel中的to_csv方法
@@ -102,21 +111,33 @@ for file in files_to_be_processed:
     )
 
     # 将订单数据写入订单表
+    count_insert = 0  # 记录写入数据库的数据行数
     for model in order_model_list:
         orders_sql = model.generate_insert_sql()
         target_db_util.select_db(conf.target_db_name)
         # 如果使用execute自动提交会导致执行1000条插入就要提交1000次，性能很低
         target_db_util.execute_without_autocommit(orders_sql)  # 先执行不提交，最后一次性提交，还能满足`事务处理`的要求
 
+        count_insert += 1
+        # 每插入1000条数据进行一次提交，防止插入数据量超过缓存（内存）而导致数据丢失
+        if count_insert % 1000 == 0:
+            target_db_util.conn.commit()
+
     # 将订单详情数据写入订单详情表
+    count_insert = 0  # 记录写入数据库的数据行数
     for model in order_detail_model_list:
         orders_detail_sql = model.generate_insert_sql()
         target_db_util.select_db(conf.target_db_name)
         target_db_util.execute_without_autocommit(orders_detail_sql)
 
+        count_insert += 1
+        # 每插入1000条数据进行一次提交，防止插入数据量超过缓存（内存）而导致数据丢失
+        if count_insert % 1000 == 0:
+            target_db_util.conn.commit()
+
     dict_processed_files[file] = count_processed_lines  # 将被处理的文件名与数据行数记录到字典中
 
-target_db_util.conn.commit()  # 一次性提交所有SQL
+target_db_util.conn.commit()  # 一次性提交剩余的SQL
 logger.info(f'CSV备份文件写出完成，写出路径：{conf.retail_output_csv_root_path}')
 logger.info(f'json数据写入target数据库成功，共处理：{global_count}行，写入：{global_count_reserved}行，过滤：{global_count - global_count_reserved}行')
 
