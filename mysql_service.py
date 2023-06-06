@@ -91,7 +91,7 @@ for single_line in result:
     factory_name = single_line[6]
     trade_price = single_line[7]
     retail_price = single_line[8]
-    update_at = single_line[9]
+    update_at = str(single_line[9])  # 原本为datetime格式，转换为str格式之后便于进行时间的对比
     wholeunit = single_line[10]
     wholenum = single_line[11]
     img = single_line[12]
@@ -115,6 +115,21 @@ for single_line in result:
     )
     barcode_models.append(model)
 
-# TODO: 步骤四 -- 写入目标数据库
+# TODO: 步骤四 -- 写入目标数据库，写入CSV文件
+count_insert = 0  # 记录插入数据的行数
+max_last_update_time = '2000-01-01 00:00:00'  # 记录上次更新数据时，数据中的最大时间
+target_db_util.select_db(conf.target_db_name)
+for model in barcode_models:
+    current_data_time = model.update_at  # 数据中的处理时间
+    if current_data_time > max_last_update_time:
+        max_last_update_time = current_data_time
+    # 插入数据
+    barcode_insert_sql = model.generate_insert_sql()
+    target_db_util.execute_without_autocommit(barcode_insert_sql)
+    count_insert += 1
+    # 每插入1000条数据进行一次提交，防止插入数据量超过缓存（内存）而导致数据丢失
+    if count_insert % 1000 == 0:
+        target_db_util.conn.commit()
 
+target_db_util.conn.commit()  # 再提交剩余不足1000条的插入语句
 
