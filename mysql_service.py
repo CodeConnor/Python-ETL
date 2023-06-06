@@ -119,17 +119,71 @@ for single_line in result:
 count_insert = 0  # 记录插入数据的行数
 max_last_update_time = '2000-01-01 00:00:00'  # 记录上次更新数据时，数据中的最大时间
 target_db_util.select_db(conf.target_db_name)
+
 for model in barcode_models:
     current_data_time = model.update_at  # 数据中的处理时间
+
     if current_data_time > max_last_update_time:
-        max_last_update_time = current_data_time
+        max_last_update_time = current_data_time  # 将最大时间更新
+
     # 插入数据
     barcode_insert_sql = model.generate_insert_sql()
     target_db_util.execute_without_autocommit(barcode_insert_sql)
+
     count_insert += 1
     # 每插入1000条数据进行一次提交，防止插入数据量超过缓存（内存）而导致数据丢失
     if count_insert % 1000 == 0:
         target_db_util.conn.commit()
+        logger.info(f'从数据源：{conf.source_db_name}库，读取表：{conf.source_barcode_table_name}'
+                    f'写入目标表：{conf.target_barcode_table_name}完成，共写出：{count_insert}行')
 
 target_db_util.conn.commit()  # 再提交剩余不足1000条的插入语句
+logger.info(f'从数据源：{conf.source_db_name}库，读取表：{conf.source_barcode_table_name}'
+            f'写入目标表：{conf.target_barcode_table_name}完成，共写出：{count_insert}行')
+
+# 写出到csv
+# 创建文件对象
+barcode_csv_write_f = open(
+    conf.barcode_output_csv_root_path + conf.barcode_output_csv_file_name,
+    'a',
+    encoding='UTF-8'
+)
+
+count_csv = 0  # 记录写入到csv文件的数据行数
+for model in barcode_models:
+    barcode_csv_line = model.to_csv()
+    # 将每行数据
+    barcode_csv_write_f.write(barcode_csv_line)
+    barcode_csv_write_f.write('\n')
+
+    count_csv += 1
+    # 每写入1000条数据就进行一次提交，防止爆缓存
+    if count_csv % 1000 == 0:
+        barcode_csv_write_f.flush()  # 同commit作用一致，将文件写入操作一次性提交
+        logger.info(f'从数据源：{conf.source_db_name}库，读取表：{conf.source_barcode_table_name}'
+                    f'写出CSV至：{barcode_csv_write_f.name}完成，共写出：{count_csv}行')
+
+barcode_csv_write_f.close()  # close后会自动提交剩余的写入操作
+
+logger.info(f'从数据源：{conf.source_db_name}库，读取表：{conf.source_barcode_table_name}'
+            f'写出CSV至：{barcode_csv_write_f.name}完成，共写出：{count_csv}行')
+
+# TODO: 步骤五 -- 记录已处理数据到元数据库中
+metadata_db_util.select_db(conf.metadata_db_name)
+metadata_insert_sql = f"INSERT INTO {conf.metadata_barcode_monitor_table_name}(" \
+                      f"time_record, gather_line_count) VALUES (" \
+                      f"'{max_last_update_time}', {count_insert})"
+metadata_db_util.execute(metadata_insert_sql)
+
+# 关闭所有数据库连接
+metadata_db_util.close_conn()
+target_db_util.close_conn()
+source_db_util.close_conn()
+
+logger.info(f'读取源数据库数据，写入目标MySQL和CSV完成，程序结束......')
+
+
+
+
+
 
