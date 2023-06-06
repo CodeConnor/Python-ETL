@@ -11,7 +11,7 @@ log_name = f'pyetl-{time.strftime("%Y%m%d-%H", time.localtime(time.time()))}.log
 # =========================== 程序运行日志配置项 end ======================================
 
 
-# =========================== JSON订单数据采集配置项 start ================================
+# =========================== JSON订单数据采集csv配置项 start ================================
 # JSON数据所在路径
 json_root_path = 'D:/Python/pyetl-data/json/'
 
@@ -21,6 +21,14 @@ retail_output_csv_root_path = 'D:/Python/pyetl-data/output/csv/'
 retail_orders_output_csv_file_name = f'orders-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
 # 订单详情模型数据写出到CSV文件的文件名
 retail_orders_detail_output_csv_file_name = f'orders-detail-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
+# =========================== JSON订单数据采集配置项 end ==================================
+
+# =========================== barcode数据采集csv配置项 start ================================
+# barcode数据写出到CSV文件的目录路径
+barcode_output_csv_root_path = 'D:/Python/pyetl-data/output/csv/'
+# 订单模型数据写出到CSV文件的文件名
+barcode_output_csv_file_name = f'orders-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
+
 # =========================== JSON订单数据采集配置项 end ==================================
 
 
