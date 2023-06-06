@@ -67,11 +67,11 @@ else:
 if last_update_time:
     # 存在则用该时间筛选数据源表
     barcode_query_sql = f"SELECT * FROM {conf.source_barcode_table_name} " \
-          f"WHERE updateAt >= '{last_update_time}' ORDER BY updateAt"
+          f"WHERE updateAt >= '{last_update_time}' ORDER BY updateAt LIMIT 10000"  # 数据过多，每次读取限制10000条
 else:
     # 不存在则检索整个数据源表
     barcode_query_sql = f"SELECT * FROM {conf.source_barcode_table_name} " \
-                        f"ORDER BY updateAt"
+                        f"ORDER BY updateAt LIMIT 10000"
 
 # 执行查询
 source_db_util.select_db(conf.source_db_name)

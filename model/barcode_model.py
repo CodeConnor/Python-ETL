@@ -31,7 +31,7 @@ class BarcodeModel:
         这就导致会重复插入部分数据，为了插入数据不报错，使用replace into进行插入
         :return: sql语句
         '''
-        sql = f"REPLACE INTO {conf.source_barcode_table_name}(" \
+        sql = f"REPLACE INTO {conf.target_barcode_table_name}(" \
               f"code,name,spec,trademark,addr,units,factory_name,trade_price," \
               f"retail_price,update_at,wholeunit,wholenum,img,src) VALUES(" \
               f"'{self.code}', " \
