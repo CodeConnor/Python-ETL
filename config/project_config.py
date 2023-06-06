@@ -27,7 +27,7 @@ retail_orders_detail_output_csv_file_name = f'orders-detail-{time.strftime("%Y%m
 # barcode数据写出到CSV文件的目录路径
 barcode_output_csv_root_path = 'D:/Python/pyetl-data/output/csv/'
 # 订单模型数据写出到CSV文件的文件名
-barcode_output_csv_file_name = f'orders-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
+barcode_output_csv_file_name = f'barcode-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
 
 # =========================== JSON订单数据采集配置项 end ==================================
 
