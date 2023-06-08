@@ -122,7 +122,7 @@ target_orders_detail_table_create_cols = \
     f"unit_id INT COMMENT '商品单位ID(包、袋、箱、等)', " \
     f"PRIMARY KEY (order_id, barcode)"
 
-# 采集barcode数据，写入MySQL的表名与建表
+# #################采集barcode数据，写入MySQL的表名与建表#####################
 target_barcode_table_name = "barcode"  # barcode数据表（商品数据表）
 # barcode数据表建表
 target_barcode_table_create_cols = """
@@ -142,6 +142,12 @@ target_barcode_table_create_cols = """
 `src` varchar(20) DEFAULT NULL COMMENT '源信息', 
 INDEX (update_at)
 """
+
+# ################## 采集后台日志数据，写入目标数据库 ################
+target_backend_logs_table_name = "backend_logs"  # 后台日志表
+target_backend_logs_table_create_cols = ""
+
+
 
 
 # ###################### 业务数据源数据库配置 ###########################

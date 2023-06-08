@@ -9,7 +9,7 @@ import time
 single_log_lines = 1024  # 一个logs文件生成多少行数据
 generate_files = 5  # 一次运行生成多少个文件
 
-output_path = "D:/Python/pyetl-data/backend_logs"  # logs文件生成位置
+output_path = "D:/Python/pyetl-data/backend_logs/"  # logs文件生成位置
 log_level_array = ['WARN', 'WARN', 'WARN', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
                    'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
                    'ERROR']
