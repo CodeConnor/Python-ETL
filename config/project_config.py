@@ -145,9 +145,15 @@ INDEX (update_at)
 
 # ################## 采集后台日志数据，写入目标数据库 ################
 target_backend_logs_table_name = "backend_logs"  # 后台日志表
-target_backend_logs_table_create_cols = ""
-
-
+target_backend_logs_table_create_cols = "" \
+                                        "id INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增ID'" \
+                                        "log_time TIMESTAMP(6) COMMENT '日志时间, 精确到6位毫秒'," \
+                                        "log_level VARCHAR(10) COMMENT '日志等级'," \
+                                        "log_module VARCHAR(255) COMMENT '代码模块'," \
+                                        "response_time INT COMMENT '接口响应时间'," \
+                                        "caller_province VARCHAR(20) COMMENT '调用者省份'," \
+                                        "caller_city VARCHAR(20) COMMENT '调用者城市'," \
+                                        "log_info VARCHAR(255) COMMENT '日志信息'"
 
 
 # ###################### 业务数据源数据库配置 ###########################
