@@ -28,15 +28,15 @@ def get_dir_files_list(path, recursion=False):
 
     return files
 
-def get_new_files_by_comparing_lists(JSON_list, processed_list):
+def get_new_files_by_comparing_lists(file_list, processed_list):
     '''
-    对比两个list，找出JSON文件列表中的待处理的文件
-    :param JSON_list: JSON业务数据文件列表，包含待处理文件与已处理文件
+    对比两个list，找出数据文件列表中的待处理的文件
+    :param file_list: 数据(JSON、log数据等)文件列表，包含待处理文件与已处理文件
     :param processed_list: 已处理文件列表
     :return: list，待处理文件列表
     '''
     new_files = []
-    for file in JSON_list:
+    for file in file_list:
         if file not in processed_list:
             new_files.append(file)
 

@@ -58,6 +58,14 @@ metadata_barcode_monitor_table_create_cols = "" \
                                              "time_record TIMESTAMP NOT NULL COMMENT '本次采集记录的最大时间', " \
                                              "gather_line_count INT NULL COMMENT '本次采集条数'"
 
+# 记录backend_logs数据的元数据表
+metadata_backend_logs_monitor_table_name = "backend_logs_monitor"
+metadata_backend_logs_monitor_table_create_cols = "" \
+                                                  "id INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增ID'," \
+                                                  "log_name VARCHAR(50) UNIQUE NOT NULL COMMENT '被处理文件文件名'," \
+                                                  "process_lines INT COMMENT '被处理文件数据条数'," \
+                                                  "process_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '文件处理时间'"
+
 # #################### 目标数据库配置 ######################
 target_host = 'localhost'
 target_port = 3306
@@ -154,6 +162,15 @@ target_backend_logs_table_create_cols = "" \
                                         "caller_province VARCHAR(20) COMMENT '调用者省份'," \
                                         "caller_city VARCHAR(20) COMMENT '调用者城市'," \
                                         "log_info VARCHAR(255) COMMENT '日志信息'"
+
+# backend_logs数据写出到CSV文件的目录路径
+backend_logs_output_csv_root_path = 'D:/Python/pyetl-data/output/csv/'
+# 订单模型数据写出到CSV文件的文件名
+backend_logs_output_csv_file_name = f'backend_logs-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
+
+
+
+
 
 
 # ###################### 业务数据源数据库配置 ###########################
