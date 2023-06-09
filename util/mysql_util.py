@@ -115,7 +115,7 @@ def get_processed_files(db_util,
                         create_cols=conf.metadata_file_monitor_table_create_cols
                         ):
     '''
-    该方法用于将已被处理的JSON文件的元数据存入元数据库中，创建并获取元数据表中被处理文件的文件名列表
+    该方法用于将已被处理的文件的元数据存入元数据库中，创建并获取元数据表中被处理文件的文件名列表
     :param db_util:被实例化的MySQLUtil对象
     :param db_name:元数据库名称
     :param table_name:存储元数据的数据表名称
