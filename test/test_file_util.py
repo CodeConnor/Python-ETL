@@ -10,7 +10,7 @@ import os
 
 class TestFileUtil(TestCase):
     def setUp(self) -> None:
-        self.test_path = os.getcwd()  # 获取当前路径
+        self.test_path = os.getcwd().replace("\\", "/")  # 获取当前路径，并替换斜杠
 
     def test_get_dir_files_list(self):
         '''
@@ -27,11 +27,11 @@ class TestFileUtil(TestCase):
         不递归结果应该是1和2
         递归结果应该是1,2,3,4,5
         '''
-        test_dir_path = self.test_path + '/test_dir'  # 获取测试文件夹所在路径
+        test_dir_path = self.test_path + '/test_dir/'  # 获取测试文件夹所在路径
         # 不递归
         result = []  # 用于存放测试结果文件列表
         for i in fu.get_dir_files_list(test_dir_path):  # 不递归获取测试中所有文件名
-            result .append(os.path.basename(i))  # 只添加文件名
+            result.append(os.path.basename(i))  # 只添加文件名
         result.sort()  # 对结果排序，防止乱序时通不过测试
         self.assertEqual(['1', '2'], result)
 

@@ -62,7 +62,7 @@ metadata_barcode_monitor_table_create_cols = "" \
 metadata_backend_logs_monitor_table_name = "backend_logs_monitor"
 metadata_backend_logs_monitor_table_create_cols = "" \
                                                   "id INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增ID'," \
-                                                  "log_name VARCHAR(50) UNIQUE NOT NULL COMMENT '被处理文件文件名'," \
+                                                  "file_name VARCHAR(50) UNIQUE NOT NULL COMMENT '被处理文件文件名'," \
                                                   "process_lines INT COMMENT '被处理文件数据条数'," \
                                                   "process_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '文件处理时间'"
 
@@ -152,6 +152,9 @@ INDEX (update_at)
 """
 
 # ################## 采集后台日志数据，写入目标数据库 ################
+# backend_logs所在目录
+backend_logs_root_path = "D:/Python/pyetl-data/backend_logs/"
+
 target_backend_logs_table_name = "backend_logs"  # 后台日志表
 target_backend_logs_table_create_cols = "" \
                                         "id INT PRIMARY KEY AUTO_INCREMENT COMMENT '自增ID'" \
@@ -168,11 +171,6 @@ backend_logs_output_csv_root_path = 'D:/Python/pyetl-data/output/csv/'
 # 订单模型数据写出到CSV文件的文件名
 backend_logs_output_csv_file_name = f'backend_logs-{time.strftime("%Y%m%d-%H%M%S", time.localtime(time.time()))}.csv'
 
-
-
-
-
-
 # ###################### 业务数据源数据库配置 ###########################
 source_host = 'localhost'
 source_port = 3306
@@ -180,6 +178,5 @@ source_user = 'root'
 source_password = '123456'
 source_db_name = 'source_data'
 source_barcode_table_name = 'sys_barcode'
-
 
 # ============================= mysql 配置 end =========================================
